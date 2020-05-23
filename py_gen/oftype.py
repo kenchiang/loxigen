@@ -88,7 +88,7 @@ type_data_map = {
         unpack='%s.read("!L")[0]'),
 
     'of_ipv6_t': OFTypeData(
-        init="'\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00'",
+        init="b'\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00'",
         pack='struct.pack("!16s", %s)',
         unpack="%s.read('!16s')[0]"),
 
@@ -98,9 +98,9 @@ type_data_map = {
         unpack="list(%s.read('!6B'))"),
 
     'of_octets_t': OFTypeData(
-        init="''",
-        pack='%s',
-        unpack='str(%s.read_all())'),
+        init="b''",
+        pack='%s',  # KHC FIXME verify
+        unpack='%s.read_all()'),  # KHC FIXME verify
 
     'of_bitmap_128_t': OFTypeData(
         init='set()',
@@ -137,8 +137,8 @@ fixed_length_strings = {
 for (cls, length) in fixed_length_strings.items():
     type_data_map[cls] = OFTypeData(
         init='""',
-        pack='struct.pack("!%ds", %%s)' % length,
-        unpack='%%s.read("!%ds")[0].rstrip("\\x00")' % length)
+        pack='struct.pack("!%ds", %%s.encode())' % length,
+        unpack='%%s.read("!%ds")[0].decode().rstrip("\\x00")' % length)
 
 ## Embedded structs
 

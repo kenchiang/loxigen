@@ -23,4 +23,4 @@ ofp.message.packet_out(
     actions=[
         ofp.action.output(port=2, max_len=0xffff),
         ofp.action.dec_nw_ttl()],
-    data="abc")
+    data=b"abc")

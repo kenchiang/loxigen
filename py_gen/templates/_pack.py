@@ -43,7 +43,7 @@
 ::         field_length_indexes[m.field_name] = index
         packed.append(${gen_pack_expr(m.oftype, '0', version=version)}) # placeholder for ${m.name} at index ${index}
 ::     elif type(m) == OFPadMember:
-        packed.append('\x00' * ${m.length})
+        packed.append(b'\x00' * ${m.length})
 ::     else:
         packed.append(${gen_pack_expr(m.oftype, 'self.' + m.name, version=version)})
 ::         if m.name in field_length_members:

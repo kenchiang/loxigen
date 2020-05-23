@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -40,9 +40,9 @@ class TestImports(unittest.TestCase):
     def test_toplevel(self):
         import loxi
         self.assertTrue(hasattr(loxi, "ProtocolError"))
-        self.assertEquals(loxi.version_names[4], "1.3")
+        self.assertEqual(loxi.version_names[4], "1.3")
         ofp = loxi.protocol(4)
-        self.assertEquals(ofp.OFP_VERSION, 4)
+        self.assertEqual(ofp.OFP_VERSION, 4)
         self.assertTrue(hasattr(ofp, "action"))
         self.assertTrue(hasattr(ofp, "common"))
         self.assertTrue(hasattr(ofp, "const"))
@@ -53,7 +53,7 @@ class TestImports(unittest.TestCase):
         import loxi
         self.assertTrue(hasattr(loxi.of13, "ProtocolError"))
         self.assertTrue(hasattr(loxi.of13, "OFP_VERSION"))
-        self.assertEquals(loxi.of13.OFP_VERSION, 4)
+        self.assertEqual(loxi.of13.OFP_VERSION, 4)
         self.assertTrue(hasattr(loxi.of13, "action"))
         self.assertTrue(hasattr(loxi.of13, "common"))
         self.assertTrue(hasattr(loxi.of13, "const"))
@@ -92,7 +92,7 @@ class TestAllOF13(unittest.TestCase):
                 if hasattr(obj, "xid"): obj.xid = 42
                 buf = obj.pack()
                 obj2 = klass.unpack(OFReader(buf))
-                self.assertEquals(obj, obj2)
+                self.assertEqual(obj, obj2)
             if klass in expected_failures:
                 self.assertRaises(Exception, fn)
             else:
@@ -108,7 +108,7 @@ class TestAllOF13(unittest.TestCase):
                 obj = klass(xid=42)
                 buf = obj.pack()
                 obj2 = ofp.message.parse_message(buf)
-                self.assertEquals(obj, obj2)
+                self.assertEqual(obj, obj2)
             if klass in expected_failures:
                 self.assertRaises(Exception, fn)
             else:
@@ -128,16 +128,16 @@ class TestAllOF13(unittest.TestCase):
 
 class TestUtils(unittest.TestCase):
     def check_bitmap_512(self, value, data):
-        self.assertEquals(data, ofp.util.pack_bitmap_512(set(value)))
-        self.assertEquals(ofp.util.unpack_bitmap_512(OFReader(data)), set(value))
+        self.assertEqual(data, ofp.util.pack_bitmap_512(set(value)))
+        self.assertEqual(ofp.util.unpack_bitmap_512(OFReader(data)), set(value))
 
     def test_bitmap_512(self):
-        self.check_bitmap_512([0], "\x00" * 63 + "\x01")
-        self.check_bitmap_512([8], "\x00" * 62 + "\x01\x00")
-        self.check_bitmap_512([63], "\x00" * 56 + "\x80" + "\x00" * 7)
-        self.check_bitmap_512([64], "\x00" * 55 + "\x01" + "\x00" * 8)
-        self.check_bitmap_512([511], "\x80" + "\x00" * 63)
-        self.check_bitmap_512([5, 67, 90], "\x00" * 52 + "\x04\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x20")
+        self.check_bitmap_512([0], b"\x00" * 63 + b"\x01")
+        self.check_bitmap_512([8], b"\x00" * 62 + b"\x01\x00")
+        self.check_bitmap_512([63], b"\x00" * 56 + b"\x80" + b"\x00" * 7)
+        self.check_bitmap_512([64], b"\x00" * 55 + b"\x01" + b"\x00" * 8)
+        self.check_bitmap_512([511], b"\x80" + b"\x00" * 63)
+        self.check_bitmap_512([5, 67, 90], b"\x00" * 52 + b"\x04\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x20")
 
 if __name__ == '__main__':
     unittest.main()

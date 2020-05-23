@@ -28,6 +28,7 @@
 
 import fnmatch
 import os
+import functools
 
 _test_data_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -86,6 +87,6 @@ def read(name):
     # The string '00 11\n22 33' results in "\x00\x11\x22\x33"
     if 'binary' in data:
         hex_strs = data['binary'].split()
-        data['binary'] = ''.join(map(lambda x: chr(int(x, 16)), hex_strs))
+        data['binary'] = functools.reduce(lambda x,y: x+y, map(lambda x: (int(x, 16)).to_bytes(1, 'big'), hex_strs))
 
     return data

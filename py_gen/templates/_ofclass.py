@@ -35,7 +35,7 @@ class ${ofclass.pyname}(${superclass_pyname}):
     def pack(self):
         packed = []
 :: include("_pack.py", ofclass=ofclass)
-        return ''.join(packed)
+        return functools.reduce(lambda x,y: x+y, packed)
 
     @staticmethod
     def unpack(reader):

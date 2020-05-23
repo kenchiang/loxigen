@@ -22,7 +22,7 @@ ofp.message.packet_out(
     actions=[
         ofp.action.output(port=1),
         ofp.action.output(port=2)],
-    data='abc')
+    data=b'abc')
 -- c
 obj = of_packet_out_new(OF_VERSION_1_0);
 of_packet_out_buffer_id_set(obj, 0xabcdef01);

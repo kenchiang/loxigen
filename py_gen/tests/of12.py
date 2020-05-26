@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -39,9 +39,9 @@ class TestImports(unittest.TestCase):
     def test_toplevel(self):
         import loxi
         self.assertTrue(hasattr(loxi, "ProtocolError"))
-        self.assertEqual(loxi.version_names[3], "1.2")
+        self.assertEquals(loxi.version_names[3], "1.2")
         ofp = loxi.protocol(3)
-        self.assertEqual(ofp.OFP_VERSION, 3)
+        self.assertEquals(ofp.OFP_VERSION, 3)
         self.assertTrue(hasattr(ofp, "action"))
         self.assertTrue(hasattr(ofp, "common"))
         self.assertTrue(hasattr(ofp, "const"))
@@ -52,7 +52,7 @@ class TestImports(unittest.TestCase):
         import loxi
         self.assertTrue(hasattr(loxi.of12, "ProtocolError"))
         self.assertTrue(hasattr(loxi.of12, "OFP_VERSION"))
-        self.assertEqual(loxi.of12.OFP_VERSION, 3)
+        self.assertEquals(loxi.of12.OFP_VERSION, 3)
         self.assertTrue(hasattr(loxi.of12, "action"))
         self.assertTrue(hasattr(loxi.of12, "common"))
         self.assertTrue(hasattr(loxi.of12, "const"))
@@ -91,7 +91,7 @@ class TestAllOF12(unittest.TestCase):
                 if hasattr(obj, "xid"): obj.xid = 42
                 buf = obj.pack()
                 obj2 = klass.unpack(OFReader(buf))
-                self.assertEqual(obj, obj2)
+                self.assertEquals(obj, obj2)
             if klass in expected_failures:
                 self.assertRaises(Exception, fn)
             else:
@@ -106,7 +106,7 @@ class TestAllOF12(unittest.TestCase):
                 obj = klass(xid=42)
                 buf = obj.pack()
                 obj2 = ofp.message.parse_message(buf)
-                self.assertEqual(obj, obj2)
+                self.assertEquals(obj, obj2)
             if klass in expected_failures:
                 self.assertRaises(Exception, fn)
             else:

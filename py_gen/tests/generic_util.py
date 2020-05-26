@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -39,80 +39,80 @@ class TestUnpackList(unittest.TestCase):
         def deserializer(reader):
             length, = reader.peek("!B")
             return reader.read('!%ds' % length)[0]
-        reader = loxi.generic_util.OFReader(b"\x04abc\x03de\x02f\x01")
+        reader = loxi.generic_util.OFReader("\x04abc\x03de\x02f\x01")
         a = loxi.generic_util.unpack_list(reader, deserializer)
-        self.assertEqual([b'\x04abc', b'\x03de', b'\x02f', b'\x01'], a)
+        self.assertEquals(['\x04abc', '\x03de', '\x02f', '\x01'], a)
 
 class TestOFReader(unittest.TestCase):
     def test_simple(self):
-        reader = OFReader(b"abcdefg")
-        self.assertEqual(reader.read('2s')[0], b"ab")
-        self.assertEqual(reader.read('2s')[0], b"cd")
-        self.assertEqual(reader.read('3s')[0], b"efg")
-        with self.assertRaisesRegex(loxi.ProtocolError, "Buffer too short"):
+        reader = OFReader("abcdefg")
+        self.assertEquals(reader.read('2s')[0], "ab")
+        self.assertEquals(reader.read('2s')[0], "cd")
+        self.assertEquals(reader.read('3s')[0], "efg")
+        with self.assertRaisesRegexp(loxi.ProtocolError, "Buffer too short"):
             reader.read('s')
 
     def test_skip(self):
-        reader = OFReader(b"abcdefg")
+        reader = OFReader("abcdefg")
         reader.skip(4)
-        self.assertEqual(reader.read('s')[0], b"e")
-        with self.assertRaisesRegex(loxi.ProtocolError, "Buffer too short"):
+        self.assertEquals(reader.read('s')[0], "e")
+        with self.assertRaisesRegexp(loxi.ProtocolError, "Buffer too short"):
             reader.skip(3)
 
     def test_empty(self):
-        reader = OFReader(b"abcdefg")
-        self.assertEqual(reader.is_empty(), False)
+        reader = OFReader("abcdefg")
+        self.assertEquals(reader.is_empty(), False)
         reader.skip(6)
-        self.assertEqual(reader.is_empty(), False)
+        self.assertEquals(reader.is_empty(), False)
         reader.skip(1)
-        self.assertEqual(reader.is_empty(), True)
-        with self.assertRaisesRegex(loxi.ProtocolError, "Buffer too short"):
+        self.assertEquals(reader.is_empty(), True)
+        with self.assertRaisesRegexp(loxi.ProtocolError, "Buffer too short"):
             reader.skip(1)
 
     def test_exception_effect(self):
-        reader = OFReader(b"abcdefg")
-        with self.assertRaisesRegex(loxi.ProtocolError, "Buffer too short"):
+        reader = OFReader("abcdefg")
+        with self.assertRaisesRegexp(loxi.ProtocolError, "Buffer too short"):
             reader.skip(8)
-        self.assertEqual(reader.is_empty(), False)
+        self.assertEquals(reader.is_empty(), False)
         reader.skip(7)
-        self.assertEqual(reader.is_empty(), True)
+        self.assertEquals(reader.is_empty(), True)
 
     def test_peek(self):
-        reader = OFReader(b"abcdefg")
-        self.assertEqual(reader.peek('2s')[0], b"ab")
-        self.assertEqual(reader.peek('2s')[0], b"ab")
-        self.assertEqual(reader.read('2s')[0], b"ab")
-        self.assertEqual(reader.peek('2s')[0], b"cd")
+        reader = OFReader("abcdefg")
+        self.assertEquals(reader.peek('2s')[0], "ab")
+        self.assertEquals(reader.peek('2s')[0], "ab")
+        self.assertEquals(reader.read('2s')[0], "ab")
+        self.assertEquals(reader.peek('2s')[0], "cd")
         reader.skip(2)
-        self.assertEqual(reader.read('3s')[0], b"efg")
-        with self.assertRaisesRegex(loxi.ProtocolError, "Buffer too short"):
+        self.assertEquals(reader.read('3s')[0], "efg")
+        with self.assertRaisesRegexp(loxi.ProtocolError, "Buffer too short"):
             reader.peek('s')
 
     def test_read_all(self):
-        reader = OFReader(b"abcdefg")
+        reader = OFReader("abcdefg")
         reader.skip(2)
-        self.assertEqual(reader.read_all(), b"cdefg")
-        self.assertEqual(reader.read_all(), b"")
+        self.assertEquals(reader.read_all(), "cdefg")
+        self.assertEquals(reader.read_all(), "")
 
     def test_slice(self):
-        reader = OFReader(b"abcdefg")
+        reader = OFReader("abcdefg")
         reader.skip(2)
-        self.assertEqual(reader.slice(3).read_all(), b"cde")
-        self.assertEqual(reader.slice(2).read_all(), b"fg")
-        self.assertEqual(reader.is_empty(), True)
+        self.assertEquals(reader.slice(3).read_all(), "cde")
+        self.assertEquals(reader.slice(2).read_all(), "fg")
+        self.assertEquals(reader.is_empty(), True)
 
     def test_skip_align(self):
-        reader = OFReader(b"abcd" + b"efgh" + b"ijkl" + b"mnop" + b"qrst")
+        reader = OFReader("abcd" + "efgh" + "ijkl" + "mnop" + "qrst")
         reader.skip_align()
-        self.assertEqual(reader.peek('2s')[0], b'ab')
-        self.assertEqual(reader.read('2s')[0], b"ab")
+        self.assertEquals(reader.peek('2s')[0], 'ab')
+        self.assertEquals(reader.read('2s')[0], "ab")
         reader.skip_align()
-        self.assertEqual(reader.peek('2s')[0], b'ij')
-        self.assertEqual(reader.read('2s')[0], b'ij')
+        self.assertEquals(reader.peek('2s')[0], 'ij')
+        self.assertEquals(reader.read('2s')[0], 'ij')
         child = reader.slice(10)
-        self.assertEqual(child.read('2s')[0], b'kl')
+        self.assertEquals(child.read('2s')[0], 'kl')
         child.skip_align()
-        self.assertEqual(child.peek('2s')[0], b'st')
+        self.assertEquals(child.peek('2s')[0], 'st')
 
 if __name__ == '__main__':
     unittest.main()

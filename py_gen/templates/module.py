@@ -33,8 +33,7 @@
 
 import struct
 import loxi
-from . import util
-import functools
+import util
 import loxi.generic_util
 
 import sys

@@ -6,4 +6,8 @@
 -- python
 ofp.message.echo_reply(
     xid=0x12345678,
+    data="abc")
+-- python3
+ofp.message.echo_reply(
+    xid=0x12345678,
     data=b"abc")

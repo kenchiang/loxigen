@@ -47,7 +47,7 @@ TEST_DATA = $(shell find test_data -name '*.data')
 OPENFLOWJ_OUTPUT_DIR = ${LOXI_OUTPUT_DIR}/openflowj
 OPENFLOWJ_ECLIPSE_WORKSPACE = openflowj-loxi
 
-all: c python java wireshark
+all: c python python3 java wireshark
 
 c: .loxi_ts.c
 
@@ -69,6 +69,21 @@ python-doc: python
 	sphinx-build ${LOXI_OUTPUT_DIR}/pyloxi-doc/input ${LOXI_OUTPUT_DIR}/pyloxi-doc
 	rm -rf ${LOXI_OUTPUT_DIR}/pyloxi-doc/input
 	@echo "HTML documentation output to ${LOXI_OUTPUT_DIR}/pyloxi-doc"
+
+python3: .loxi_ts.python3
+
+.loxi_ts.python3: ${LOXI_PY_FILES} ${LOXI_TEMPLATE_FILES} ${INPUT_FILES} ${TEST_DATA}
+	./loxigen.py --install-dir=${LOXI_OUTPUT_DIR} --lang=python3
+	touch $@
+
+python3-doc: python3
+	rm -rf ${LOXI_OUTPUT_DIR}/pyloxi3-doc
+	mkdir -p ${LOXI_OUTPUT_DIR}/pyloxi3-doc
+	cp -a py_gen3/sphinx ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3 sphinx-apidoc -o ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input ${LOXI_OUTPUT_DIR}/pyloxi3
+	sphinx-build ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input ${LOXI_OUTPUT_DIR}/pyloxi3-doc
+	rm -rf ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input
+	@echo "HTML documentation output to ${LOXI_OUTPUT_DIR}/pyloxi3-doc"
 
 java: .loxi_ts.java
 	@rsync -rt java_gen/pre-written/ ${LOXI_OUTPUT_DIR}/openflowj/
@@ -121,19 +136,28 @@ debug:
 	@echo
 	@echo "INPUT_FILES=\"${INPUT_FILES}\""
 
-check-all: check check-c check-py check-java
+check-all: check check-c check-py check-py3 check-java
 
 check:
 	nosetests
 
 check-py: python
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/generic_util.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of10.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of11.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of12.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of13.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of14.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python3 py_gen/tests/of15.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/generic_util.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of10.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of11.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of12.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of13.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of14.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of15.py
+
+check-py3: python3
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/generic_util.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of10.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of11.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of12.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of13.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of14.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of15.py
 
 check-c: c
 	make -j4 -C ${LOXI_OUTPUT_DIR}/locitest
@@ -150,8 +174,9 @@ coverage:
 	coverage erase
 	coverage run -a ./loxigen.py --lang=c
 	coverage run -a ./loxigen.py --lang=python
+	coverage run -a ./loxigen.py --lang=python3
 	coverage run -a ./loxigen.py --lang=java
 	coverage run -a ./loxigen.py --lang=wireshark
 	coverage annotate -i --omit tenjin.py,pyparsing.py
 
-.PHONY: all clean debug check pylint c python coverage
+.PHONY: all clean debug check pylint c python python3 coverage

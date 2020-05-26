@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -35,10 +35,8 @@ import test_data
 from loxi.generic_util import OFReader
 
 # Human-friendly format for binary strings. 8 bytes per line.
-# KHC FIXME keep or remove?
-def format_binary(byts):  # KHC FIXME was buf
-    # KHC FIXME clean up
-    #byts = map(ord, buf)
+def format_binary(buf):
+    byts = map(ord, buf)
     lines = [[]]
     for byt in byts:
         if len(lines[-1]) == 8:
@@ -49,16 +47,15 @@ def format_binary(byts):  # KHC FIXME was buf
 def diff(a, b):
     return '\n'.join(difflib.ndiff(a.splitlines(), b.splitlines()))
 
-# KHC FIXME reinstate the diff generation in asserts
 # Test serialization / deserialization / reserialization of a sample object.
 # Depends in part on the __eq__ method being correct.
 def test_serialization(obj, buf):
     packed = obj.pack()
     if packed != buf:
-        a = buf
-        b = packed
-        raise AssertionError("Serialization of %s failed\nExpected:\n%r\nActual:\n%r" % \
-            (type(obj).__name__, a, b))
+        a = format_binary(buf)
+        b = format_binary(packed)
+        raise AssertionError("Serialization of %s failed\nExpected:\n%s\nActual:\n%s\nDiff:\n%s" % \
+            (type(obj).__name__, a, b, diff(a, b)))
     unpacked = type(obj).unpack(OFReader(buf))
     if obj != unpacked:
         a = obj.show()
@@ -67,10 +64,10 @@ def test_serialization(obj, buf):
             (type(obj).__name__, a, b, diff(a, b)))
     packed = unpacked.pack()
     if packed != buf:
-        a = buf
-        b = packed
-        raise AssertionError("Reserialization of %s failed\nExpected:\n%r\nActual:\n%r" % \
-            (type(obj).__name__, a, b))
+        a = format_binary(buf)
+        b = format_binary(packed)
+        raise AssertionError("Reserialization of %s failed\nExpected:\n%s\nActual:\n%s\nDiff:\n%s" % \
+            (type(obj).__name__, a, b, diff(a, b)))
 
 def test_pretty(obj, expected):
     pretty = obj.show()

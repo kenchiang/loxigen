@@ -28,6 +28,7 @@
 
 import fnmatch
 import os
+import sys
 import functools
 
 _test_data_dir = os.path.dirname(os.path.realpath(__file__))
@@ -77,7 +78,7 @@ def read(name):
             elif line.startswith('--'):
                 cur_section = line[2:].strip()
                 if cur_section in section_lines:
-                    raise Exception("section %s already exists in the test data file")
+                    raise Exception("section %s already exists in test data file %s", cur_section, name)
                 section_lines[cur_section] = []
             elif cur_section:
                 section_lines[cur_section].append(line)
@@ -87,6 +88,9 @@ def read(name):
     # The string '00 11\n22 33' results in "\x00\x11\x22\x33"
     if 'binary' in data:
         hex_strs = data['binary'].split()
-        data['binary'] = functools.reduce(lambda x,y: x+y, map(lambda x: (int(x, 16)).to_bytes(1, 'big'), hex_strs))
+        if sys.version_info.major == 2:
+            data['binary'] = ''.join(map(lambda x: chr(int(x, 16)), hex_strs))
+        else:
+            data['binary'] = functools.reduce(lambda x,y: x+y, map(lambda x: (int(x, 16)).to_bytes(1, 'big'), hex_strs))
 
     return data

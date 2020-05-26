@@ -29,11 +29,10 @@
 
 :: include('_autogen.py')
 
+import const
 :: for module in modules:
-::   if module not in ['const', 'common']:
-from . import ${module}
-::   #endif
+import ${module}
 :: #endfor
-from .const import *
-from .common import *
+from const import *
+from common import *
 from loxi import ProtocolError

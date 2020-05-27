@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PyLoxi's documentation!
-==================================
+Welcome to PyLoxi3's documentation!
+===================================
 
 Contents:
 

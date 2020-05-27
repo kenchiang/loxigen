@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../pyloxi'))
+sys.path.insert(0, os.path.abspath('../../pyloxi3'))
 
 import loxi
 
@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyLoxi'
+project = u'PyLoxi3'
 copyright = u'2013, Big Switch Networks'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -166,7 +166,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PyLoxidoc'
+htmlhelp_basename = 'PyLoxi3doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -185,7 +185,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PyLoxi.tex', u'PyLoxi Documentation',
+  ('index', 'PyLoxi3.tex', u'PyLoxi3 Documentation',
    u'Author', 'manual'),
 ]
 
@@ -215,7 +215,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pyloxi', u'PyLoxi Documentation',
+    ('index', 'pyloxi3', u'PyLoxi3 Documentation',
      [u'Author'], 1)
 ]
 
@@ -229,8 +229,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PyLoxi', u'PyLoxi Documentation',
-   u'Author', 'PyLoxi', 'One line description of project.',
+  ('index', 'PyLoxi3', u'PyLoxi3 Documentation',
+   u'Author', 'PyLoxi3', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -247,7 +247,7 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'PyLoxi'
+epub_title = u'PyLoxi3'
 epub_author = u'Author'
 epub_publisher = u'Author'
 epub_copyright = u'2013, Author'

@@ -39,7 +39,7 @@ def format_binary(arg):
     if isinstance(arg, str):
         byts = map(ord, arg)
     elif isinstance(arg, bytes):
-        Byts = arg
+        byts = arg
     else:
         raise ValueError('unhandled type', arg, type(arg))
     lines = [[]]

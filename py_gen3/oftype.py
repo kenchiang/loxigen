@@ -99,8 +99,8 @@ type_data_map = {
 
     'of_octets_t': OFTypeData(
         init="b''",
-        pack='%s',  # KHC FIXME verify
-        unpack='%s.read_all()'),  # KHC FIXME verify
+        pack='%s',
+        unpack='%s.read_all()'),
 
     'of_bitmap_128_t': OFTypeData(
         init='set()',

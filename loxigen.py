@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -106,14 +106,14 @@ def process_input_file(filename):
         with open(filename, 'r') as f:
             ast = parser.parse(f.read())
     except pyparsing.ParseBaseException as e:
-        print "Parse error in %s: %s" % (os.path.basename(filename), str(e))
+        print("Parse error in %s: %s" % (os.path.basename(filename), str(e)))
         sys.exit(1)
 
     # Create the OFInput from the AST
     try:
         ofinput = frontend.create_ofinput(os.path.basename(filename), ast)
     except frontend.InputError as e:
-        print "Error in %s: %s" % (os.path.basename(filename), str(e))
+        print("Error in %s: %s" % (os.path.basename(filename), str(e)))
         sys.exit(1)
 
     return ofinput
@@ -151,6 +151,8 @@ def build_ir(ofinputs_by_version):
         loxi_globals.ir[version] = ofprotocol
 
     loxi_globals.unified = loxi_ir.build_unified_ir(loxi_globals.ir)
+    # KHC FIXME make this a trace/log instead
+    #print(loxi_globals.ir[OFVersions.from_wire(5)])
 
 ################################################################
 #

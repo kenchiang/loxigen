@@ -58,9 +58,9 @@ the const module directly into their namespace so the user can access
 """
 
 import os
-import py_gen3.codegen
+import py_gen.codegen
 
 PREFIX = 'pyloxi3/loxi'
 
 def generate(install_dir):
-    py_gen3.codegen.codegen(os.path.join(install_dir, PREFIX))
+    py_gen.codegen.codegen(os.path.join(install_dir, PREFIX), pyversion=3)

@@ -79,7 +79,7 @@ python3: .loxi_ts.python3
 python3-doc: python3
 	rm -rf ${LOXI_OUTPUT_DIR}/pyloxi3-doc
 	mkdir -p ${LOXI_OUTPUT_DIR}/pyloxi3-doc
-	cp -a py_gen3/sphinx ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input
+	cp -a py_gen/sphinx3 ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input
 	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3 sphinx-apidoc -o ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input ${LOXI_OUTPUT_DIR}/pyloxi3
 	sphinx-build ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input ${LOXI_OUTPUT_DIR}/pyloxi3-doc
 	rm -rf ${LOXI_OUTPUT_DIR}/pyloxi3-doc/input
@@ -125,7 +125,7 @@ wireshark: .loxi_ts.wireshark
 
 clean:
 	rm -rf loxi_output # only delete generated files in the default directory
-	rm -f loxigen.log loxigen-test.log .loxi_ts.*
+	rm -f .loxi_ts.*
 
 debug:
 	@echo "LOXI_OUTPUT_DIR=\"${LOXI_OUTPUT_DIR}\""
@@ -151,13 +151,13 @@ check-py: python
 	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi:. python py_gen/tests/of15.py
 
 check-py3: python3
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/generic_util.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of10.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of11.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of12.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of13.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of14.py
-	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen3/tests/of15.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/generic_util.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of10.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of11.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of12.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of13.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of14.py
+	PYTHONPATH=${LOXI_OUTPUT_DIR}/pyloxi3:. python3 py_gen/tests3/of15.py
 
 check-c: c
 	make -j4 -C ${LOXI_OUTPUT_DIR}/locitest

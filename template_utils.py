@@ -27,8 +27,12 @@
 
 import os
 import sys
+import logging
 
 import tenjin
+
+logger = logging.getLogger(__name__)
+tenjin.logger = logger
 
 """ @brief utilities for rendering templates
 """
@@ -82,7 +86,7 @@ def open_output(install_dir, name):
 
     'name' may include slashes. Subdirectories will be automatically created.
     """
-    print("Writing %s to %s" % (name, install_dir))
+    print(("Writing %s to %s" % (name, install_dir)))
     path = os.path.join(install_dir, name)
     dirpath = os.path.dirname(path)
     if not os.path.exists(dirpath):

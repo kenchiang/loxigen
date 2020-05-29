@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Copyright 2013, Big Switch Networks, Inc.
 #
 # LoxiGen is licensed under the Eclipse Public License, version 1.0 (EPL), with
@@ -89,8 +88,8 @@ def read(name):
     if 'binary' in data:
         hex_strs = data['binary'].split()
         if sys.version_info.major == 2:
-            data['binary'] = ''.join(map(lambda x: chr(int(x, 16)), hex_strs))
+            data['binary'] = ''.join([chr(int(x, 16)) for x in hex_strs])
         else:
-            data['binary'] = functools.reduce(lambda x,y: x+y, map(lambda x: (int(x, 16)).to_bytes(1, 'big'), hex_strs))
+            data['binary'] = functools.reduce(lambda x,y: x+y, [(int(x, 16)).to_bytes(1, 'big') for x in hex_strs])
 
     return data

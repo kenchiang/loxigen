@@ -27,12 +27,8 @@
 
 import os
 import sys
-import logging
 
 import tenjin
-
-logger = logging.getLogger(__name__)
-tenjin.logger = logger
 
 """ @brief utilities for rendering templates
 """

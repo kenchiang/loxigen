@@ -42,7 +42,7 @@ class DataFileTests(unittest.TestCase):
         self.assertEqual(sorted(['section1', 'section2', 'binary']), sorted(data.keys()))
         self.assertEqual(' abc def\nghi', data['section1'])
         self.assertEqual('123\n456\n789', data['section2'])
-        self.assertEqual('\x00\x01\x02\x03\x04\x05\x06\x07\x77\x66\x55\x44\x33\x22\x11\x00',
+        self.assertEqual(b'\x00\x01\x02\x03\x04\x05\x06\x07\x77\x66\x55\x44\x33\x22\x11\x00',
                           data['binary'])
 
     # Just make sure all included data files parse without exceptions

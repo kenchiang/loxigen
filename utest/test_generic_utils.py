@@ -85,7 +85,7 @@ class GenericTest(unittest.TestCase):
         @memoize
         def function(**kw):
             self.count += 1
-            return ",".join("{k}={v}".format(k=k,v=v) for k,v in kw.items())
+            return ",".join("{k}={v}".format(k=k,v=v) for k,v in sorted(kw.items()))
 
         self.assertEqual(0, self.count)
         self.assertEqual("a=1", function(a=1))

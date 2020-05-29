@@ -251,35 +251,30 @@ struct bar { };
 
 class TestErrors(unittest.TestCase):
     def syntax_error(self, src, regex):
-        # KHC FIXME why doesn't this work?
-        # 'TestErrors' object has no attribute 'assertRaisesRegex'
-        #with self.assertRaisesRegex(pyparsing.ParseSyntaxException, regex):
-        #    parser.parse(src)
-        # KHC FIXME this works; need further debugging
-        with self.assertRaises(pyparsing.ParseSyntaxException):
+        with self.assertRaisesRegex(pyparsing.ParseSyntaxException, regex):
             parser.parse(src)
 
     def test_missing_struct_syntax(self):
         self.syntax_error('struct { uint32_t bar; };',
-                          'Expected identifier \(at char 7\)')
+                          'Expected identifier')
         self.syntax_error('struct foo uint32_t bar; };',
-                          'Expected "{" \(at char 11\)')
+                          'Expected "{"')
         self.syntax_error('struct foo { uint32_t bar; ;',
-                          'Expected "}" \(at char 27\)')
+                          'Expected "}"')
         self.syntax_error('struct foo { uint32_t bar; }',
-                          'Expected ";" \(at char 28\)')
+                          'Expected ";"')
 
     def test_invalid_type_name(self):
         self.syntax_error('struct foo { list<of_action_t> bar; }',
-                          'Expected "\(" \(at char 17\)')
+                          'Expected "\("')
         self.syntax_error('struct foo { uint32_t[10 bar; }',
-                          'Expected "\]" \(at char 24\)')
+                          'Expected "\]"')
 
     def test_invalid_member_syntax(self):
         self.syntax_error('struct foo { bar; }',
-                          'Expected identifier \(at char 16\)')
+                          'Expected identifier')
         self.syntax_error('struct foo { uint32_t bar baz; }',
-                          'Expected ";" \(at char 26\)')
+                          'Expected ";"')
 
 
 if __name__ == '__main__':

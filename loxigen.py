@@ -103,7 +103,7 @@ def process_input_file(filename):
 
     # Parse the input file
     try:
-        with open(filename, 'r') as f:
+        with open(filename, encoding='ascii', errors='surrogateescape') as f:
             ast = parser.parse(f.read())
     except pyparsing.ParseBaseException as e:
         print("Parse error in %s: %s" % (os.path.basename(filename), str(e)))

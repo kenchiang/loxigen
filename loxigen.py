@@ -151,8 +151,8 @@ def build_ir(ofinputs_by_version):
         loxi_globals.ir[version] = ofprotocol
 
     loxi_globals.unified = loxi_ir.build_unified_ir(loxi_globals.ir)
-    # KHC FIXME make this a trace/log instead
-    #print(loxi_globals.ir[OFVersions.from_wire(5)])
+    # uncomment to dump the internal represenation for a given version
+    #print(loxi_globals.ir[OFVersions.VERSION_1_4])
 
 ################################################################
 #
